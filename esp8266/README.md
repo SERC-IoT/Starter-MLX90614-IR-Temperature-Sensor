@@ -1,7 +1,6 @@
-# ESP8266 and -- -- Sensor
+# ESP8266 and MLX90614 Infra-Red Temperature Sensor
 
-<!-- #TODO add sensor and circuit diagrams -->
-Code for getting started with -- -- sensor and an ESP8266 development board.
+Code for getting started with MLX90614 infra-red temperature sensor and an ESP8266 development board.
 
 <br />
 
@@ -23,7 +22,7 @@ Setup instructions for a WeMos D1 mini are below. For ESP32 based setup instruct
 
 Wire the components as shown in the diagram.
 
-![circuit diagram](assets/esp8266-starter-circuit-diagram_schem.svg)
+![circuit diagram](assets/esp8266-mlx90614-sensor-circuit-diagram_schem.svg)
 
 #### Components Needed
 
@@ -33,7 +32,7 @@ Wire the components as shown in the diagram.
 
 <br />
 
-![breadboard diagram](assets/esp8266-starter-circuit-diagram_bb.svg)
+![breadboard diagram](assets/esp8266-mlx90614-sensor-circuit-diagram_bb.png)
 
 <br />
 
@@ -44,6 +43,8 @@ Wire the components as shown in the diagram.
 |  |  |  |  |
 | 1 | +3.3V |  | Vdd |
 | 6 | GND |  | GND |
+| D2 | GPIO4 |  | SDA |
+| D1 | GPIO5 |  | SCL |
 |  |  |  |  |
 
 ![pin diagram](assets/wemos-d1-mini-pinout.png)
