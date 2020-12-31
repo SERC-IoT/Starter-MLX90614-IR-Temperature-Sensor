@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${USERPROFILE}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\**",
+                "${USERPROFILE}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\**",
+                "${workspaceFolder}/../additional-libraries/**"
+            ],
+            "forcedInclude": [],
+            "defines": [
+                "USBCON"
+            ]
+        }
+    ]
+}
