@@ -1,7 +1,6 @@
-# Raspberry Pi and -- Sensor
+# Raspberry Pi and MLX90614 Infra-Red Temperature Sensor
 
-<!-- #TODO add sensor and circuit diagrams -->
-Code for getting started with ... sensor using a Raspberry Pi.
+Code for getting started with MLX90614 infra-red temperature sensor using a Raspberry Pi.
 
 <br />
 
@@ -20,17 +19,17 @@ Code for getting started with ... sensor using a Raspberry Pi.
 
 Wire the components as shown in the diagram.
 
-![circuit diagram](assets/rpi-starter-circuit-diagram_schem.svg)
+![circuit diagram](assets/rpi-mlx90614-sensor-circuit-diagram_schem.svg)
 
 #### Components Needed
 
-* 
+* mlx90614 sensor breakout board
 * connecting wires
 * raspberry pi
 
 <br />
 
-![breadboard diagram](assets/rpi-starter-circuit-diagram_bb.svg)
+![breadboard diagram](assets/rpi-mlx90614-sensor-circuit-diagram_bb.svg)
 
 <br />
 
@@ -39,7 +38,9 @@ Wire the components as shown in the diagram.
 | Pin No | Function |  | Device Connection |
 | --- | --- | --- | --- |
 |  |  |  |  |
-| 1 | +3.3V |  | Vdd |
+| 1 | +3.3V |  | Vin |
+| 3 | GPIO2 / I2C1 SDA |  | SDA |
+| 5 | GPIO3 / I2C1 SCL |  | SCL |
 | 6 | GND |  | GND |
 |  |  |  |  |
 
