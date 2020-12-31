@@ -64,11 +64,11 @@ The arduino sketches require the -- -- libraries. They are included in the root 
 
 ## MicroPython
 
-<!-- #TODO add library info -->
-MicroPython already has drivers for -- devices baked in.
+The MicroPython script uses a module from https://github.com/mcauser/micropython-mlx90614. It is included in the [micropython/lib](micropython/lib) folder.
 
 <br />
 
 ## References
 
 - https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/
+- https://github.com/mcauser/micropython-mlx90614
