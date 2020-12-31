@@ -26,7 +26,7 @@ Wire the components as shown in the diagram.
 
 #### Components Needed
 
-* 
+* mlx90614 sensor breakout board
 * connecting wires
 * esp8266 device
 
