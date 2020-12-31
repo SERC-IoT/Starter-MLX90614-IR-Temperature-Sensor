@@ -1,9 +1,12 @@
-# Starter Starter
+# MLX90614 Infra-Red Temperature Sensor
 
-Brief project description and/or information about sensor.
+Starter code for using an MLX90614 infra-red temperature sensor.
 
-<!-- #TODO add image and description of sensor -->
-![sensor](assets/...)
+![sensor](assets/MLX90614-IR-Thermometer_1-1000x750.JPG)
+
+The MLX90614 is an infrared thermometer for non-contact temperature measurements made by Melexis. It is available as just the sensor, or on a breakout board. This guide will be for the breakout board configured for I2C communication. For wiring the sensor without a breakout board or for PWM communication, see https://learn.sparkfun.com/tutorials/mlx90614-ir-thermometer-hookup-guide/all
+
+The default address for the sensor is 0x5a.
 
 <br />
 
@@ -29,7 +32,7 @@ Setup instructions and starter code for different development boards
 | File/Folder | Description |
 |--- | --- |
 | additional-libraries | Folder contains libraries needed for Arduino sketches. They are included as submodules. Use either `git clone --recursive` or `git submodule init` after cloning. |
-| docs/... | Data sheet for sensor |
+| [docs/MLX90614-Datasheet-Melexis.pdf](docs/MLX90614-Datasheet-Melexis.pdf) | Data sheet for sensor |
 |  |  |
 
 <br />
@@ -41,3 +44,5 @@ Setup instructions and starter code for different development boards
 <br />
 
 ## References
+
+- https://www.melexis.com/en/product/MLX90614/Digital-Plug-Play-Infrared-Thermometer-TO-Can
