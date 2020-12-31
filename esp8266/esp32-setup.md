@@ -1,22 +1,21 @@
 # Setup for ESP32 dev board
 
-<!-- #TODO add sensor and circuit diagrams -->
 Setup instructions for an ESP32 based development board, like the Lolin D32 or Lolin32 Lite.
 
 ## Circuit Diagram
 Wire the components as shown in the diagram.
 
-![circuit diagram](assets/esp32--sensor-circuit-diagram_schem.png)
+![circuit diagram](assets/esp32-mlx90614-sensor-circuit-diagram_schem.png)
 
 #### Components Needed
-* 
+* mlx90614 sensor breakout board
 * connecting wires
 * esp32 development board
 
 
 <br />
 
-![breadboard diagram](assets/esp32--sensor-circuit-diagram_bb.png)
+![breadboard diagram](assets/esp32-mlx90614-sensor-circuit-diagram_bb.png)
 
 <br />
 
@@ -27,7 +26,9 @@ Wire the components as shown in the diagram.
 |  |  |  |
 |  | +3.3V | Vdd |
 |  | GND | GND |
-|  | GPIO 0 | DQ |
+| 4 | GPIO4 |  | SDA |
+| 5 | GPIO5 |  | SCL |
+|  |  |  |
 
 ![pin diagram](assets/Lolin32_pinout03.png)
 
@@ -46,11 +47,11 @@ The arduino sketch requires the -- library. It is included in the libraries fold
 
 ## MicroPython
 
-<!-- #TODO add library info -->
-MicroPython already has drivers for -- devices baked in.
+The MicroPython script uses a module from https://github.com/mcauser/micropython-mlx90614. It is included in the [micropython/lib](micropython/lib) folder.
 
 <br />
 
 ## References
 
 - https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+- https://github.com/mcauser/micropython-mlx90614
