@@ -36,6 +36,16 @@ jobs:
           ./bin/arduino-cli core update-index
           ./bin/arduino-cli core list
 
+      # # install additional libraries
+      # - name: Install additional libraries
+      #   run: ./bin/arduino-cli lib install "Adafruit MLX90614 Library"
+
+      # link arduino libraries folder to additional-libraries folder
+      - name: link libraries folder
+        run: |
+          ln -s additional-libraries ~/Arduino/libraries
+          ls -al ~/Arduino
+
       # compile sketch
       - name: Compile sketch
         run: ./bin/arduino-cli compile --fqbn arduino:avr:uno arduino-uno/arduino/mlx90614-temperature-sensor/mlx90614-temperature-sensor.ino
