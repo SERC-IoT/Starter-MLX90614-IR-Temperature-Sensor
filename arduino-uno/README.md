@@ -1,9 +1,8 @@
-# Arduino Uno and -- -- Sensor
+# Arduino Uno and MLX90614 Infra-Red Temperature Sensor
 
 ![Arduino Sketch Compiles](https://github.com/SERC-IoT/Starter-Start/workflows/Arduino%20Sketch%20Compiles/badge.svg)
 
-<!-- #TODO add sensor and circuit diagrams -->
-Setup instructions and starter code for using the -- -- sensor and an Arduino development board.
+Setup instructions and starter code for using the MLX90614 infra-red temperature sensor and an Arduino development board.
 
 <br />
 
@@ -23,29 +22,31 @@ Setup instructions and starter code for using the -- -- sensor and an Arduino de
 Setup instructions for an Arduino Uno board is below. For MKR WiFi 1010 based setup instructions see [mkr-wifi-1010-setup.md](mkr-wifi-1010-setup.md).
 
 ## Circuit Diagram
-Wire the components as shown in the diagram.
+Wire the components as shown in the diagram. Note, the sensor is available in 3V or 5V versions. Be sure to use the correct voltage for the sensor.
 
-![circuit diagram](assets/...)
+![circuit diagram](assets/uno-mlx90614-sensor-circuit-diagram_schem.svg)
 
 #### Components Needed
-* 
+* mlx90614 sensor breakout board
 * connecting wires
 * arduino uno development board
 
-
 <br />
 
-![breadboard diagram](assets/...)
+![breadboard diagram](assets/uno-mlx90614-sensor-circuit-diagram_bb.svg)
 
 <br />
 
 ### Default Pin Wiring
 
-| Pin No | Function | Device Connection |
-| --- | --- | --- |
-| 5V | +5V | Vdd |
-| GND | GND | GND |
-|  |  |  |
+| Pin No | Function |  | Device Connection |
+| --- | --- | --- | --- |
+|  |  |  |  |
+| VCC | +3.3V |  | Vin |
+| GND | GND |  | GND |
+| 18 | SDA |  | SDA |
+| 19 | SCL |  | SCL |
+|  |  |  |  |
 
 ![pin diagram](assets/Pinout-UNOrev3_latest.png)
 
