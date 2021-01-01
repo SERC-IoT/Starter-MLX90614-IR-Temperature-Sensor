@@ -24,6 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - run: git submodule update --init --recursive
 
       # install arduino cli
       - name: Install arduino-cli
@@ -43,11 +44,10 @@ jobs:
       # link arduino libraries folder to additional-libraries folder
       - name: link libraries folder
         run: |
+          mkdir ~/Arduino
           ln -s additional-libraries ~/Arduino/libraries
           ls -al ~/Arduino
 
       # compile sketch
       - name: Compile sketch
         run: ./bin/arduino-cli compile --fqbn arduino:avr:uno arduino-uno/arduino/mlx90614-temperature-sensor/mlx90614-temperature-sensor.ino
-
-  
