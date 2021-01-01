@@ -38,6 +38,6 @@ jobs:
 
       # compile sketch
       - name: Compile sketch
-        run: ./bin/arduino-cli compile --fqbn arduino:avr:uno arduino-uno/arduino/ #add sketch folder to path
+        run: ./bin/arduino-cli compile --fqbn arduino:avr:uno arduino-uno/arduino/mlx90614-temperature-sensor/mlx90614-temperature-sensor.ino
 
   
