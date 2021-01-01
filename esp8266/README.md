@@ -58,8 +58,7 @@ Further details and other board pin out diagrams can be found here: https://rand
 
 The sketch will work with many different types and chipset of board. To use an ESP8266 board with Arduino IDE, you will need to install the relevant board configuration files. Follow the instructions here: https://arduino-esp8266.readthedocs.io/en/latest/installing.html
 
-<!-- #TODO add library info -->
-The arduino sketches require the -- -- libraries. They are included in the root additional-libraries folder. Afternatively, they can be downloaded through the Arduino libraries manager or from -- --
+The arduino sketches require the Adafruit MLX90614 library. It is included in the root additional-libraries folder. Afternatively, they can be downloaded through the Arduino libraries manager or from https://github.com/adafruit/Adafruit-MLX90614-Library
 
 <br />
 
@@ -73,3 +72,4 @@ The MicroPython script uses a module from https://github.com/mcauser/micropython
 
 - https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/
 - https://github.com/mcauser/micropython-mlx90614
+- https://github.com/adafruit/Adafruit-MLX90614-Library

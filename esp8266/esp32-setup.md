@@ -40,8 +40,7 @@ Further details and other board pin out diagrams can be found here: https://rand
 
 The sketch will work with many different types and chipset of board. To use an ESP32 board with Arduino, you will need to install the relevant board configuration files. Follow the instructions here: https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/boards_manager.md
 
-<!-- #TODO add library info -->
-The arduino sketch requires the -- library. It is included in the libraries folder.
+The arduino sketches require the Adafruit MLX90614 library. It is included in the root additional-libraries folder. Afternatively, they can be downloaded through the Arduino libraries manager or from https://github.com/adafruit/Adafruit-MLX90614-Library
 
 <br />
 
@@ -55,3 +54,4 @@ The MicroPython script uses a module from https://github.com/mcauser/micropython
 
 - https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
 - https://github.com/mcauser/micropython-mlx90614
+- https://github.com/adafruit/Adafruit-MLX90614-Library
