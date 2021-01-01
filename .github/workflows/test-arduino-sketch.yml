@@ -45,8 +45,7 @@ jobs:
       - name: link libraries folder
         run: |
           mkdir ~/Arduino
-          ln -s additional-libraries ~/Arduino/libraries
-          ls -al ~/Arduino
+          ln -s $PWD/additional-libraries ~/Arduino/libraries
 
       # compile sketch
       - name: Compile sketch
