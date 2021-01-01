@@ -1,0 +1,2 @@
+smbus2
+pymlx90614

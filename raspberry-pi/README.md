@@ -9,8 +9,9 @@ Code for getting started with MLX90614 infra-red temperature sensor using a Rasp
 | File/Folder | Description |
 |--- | --- |
 | [python/](python/) | folder for python scripts. |
+| [python/read_temperature.py](python/read_temperature.py) | Example python script that reads the temperature values and prints them to the console. |
 | [python/requirements.txt](python/requirements.txt) | Requirements file for python dependancy libraries. |
-| [config.sh](config.sh) | Bash script to automatically configure and setup the Raspberry Pi for using the ... sensor. |
+| [config.sh](config.sh) | Bash script to automatically configure and setup the Raspberry Pi for using the MLX90614 infra-red temperature sensor. |
 |  |  |
 
 <br />
@@ -76,32 +77,33 @@ pi@raspberrypi:~ $ sudo i2cdetect -y 1
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-20: -- -- -- 23 -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- 5a -- -- -- -- --
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- --
 ```
 
-The default address for the sensor is 0x23. The other address is 0x5C using the address pin.
+The default address for the sensor is 0x5a.
 
 ### Python Dependancies
 
-The python script requires the PyPi ... library from https://pypi.org/project/.../. This library can be installed from PyPI by executing:
+The python script requires the PyPi smbus2 library and the PyMLX90614 library from https://pypi.org/project/PyMLX90614/. These libraries can be installed from PyPI by executing:
 
 ```bash
-sudo pip install ...
+sudo pip3 install smbus2 pymlx90614
 ```
 
 A requirements.txt file is also provided and can be used instead.
 ```bash
 cd ./python
-sudo pip install -r requirements.txt
+sudo pip3 install -r requirements.txt
 ```
 
 <br />
 
 ## References
 
-- 
+- https://pypi.org/project/smbus2/
+- https://pypi.org/project/PyMLX90614/
