@@ -14,6 +14,11 @@ void setup()
 {
   Serial.begin(9600);
 
+  // wait until serial port opens
+  while (! Serial) {
+    delay(1);
+  }
+
   Serial.println("** MLX90614 Temperature Reading **"); 
   mlx.begin();  // initialise sensor
 }
