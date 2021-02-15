@@ -8,7 +8,7 @@ Code for getting started with MLX90614 infra-red temperature sensor and an ESP82
 
 | File/Folder | Description |
 |--- | --- |
-| [arduino/](arduino/) | folder for arduino sketches. // For Arduino, use the sketches in the Arduino Uno folder [../arduino-uno/arduino](../arduino-uno/arduino) |
+| [arduino/](../arduino-uno/arduino) | For Arduino, use the sketches in the Arduino Uno folder [../arduino-uno/arduino](../arduino-uno/arduino) |
 | [micropython/](micropython/) | folder for micropython scripts. Pymakr is configured to sync this folder with the micropython device. |
 | [micropython/read_temperature.py](micropython/read_temperature.py) | micropython script that reads the temperature values and prints them to the repl. |
 |  |  |
