@@ -4,10 +4,11 @@ name: Arduino Sketch Checks
 
 # Controls when the action will run. 
 on:
-  # Trigger workflow when arduino sketch changes
+  # Trigger workflow when arduino sketch changes or workflow file changes
   push:
     # branches: [ main ]
     paths:
+      - '.github/workflows/arduino-sketch-checks.yml'
       - 'arduino-uno/arduino/**'  
 
   # Allows you to run this workflow manually from the Actions tab

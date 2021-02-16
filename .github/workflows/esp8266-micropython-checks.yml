@@ -3,10 +3,11 @@
 name: MicroPython Checks
 
 on:
-  # Trigger workflow when micropython code changes
+  # Trigger workflow when micropython code changes or workflow file changes
   push:
     # branches: [ main ]
     paths:
+      - '.github/workflows/esp8266-micropython-checks.yml'
       - 'esp8266/micropython/**'
 
   # Allows you to run this workflow manually from the Actions tab

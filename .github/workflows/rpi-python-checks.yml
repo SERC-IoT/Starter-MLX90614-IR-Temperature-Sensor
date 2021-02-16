@@ -3,10 +3,11 @@
 name: RPi Python Checks
 
 on:
-  # Trigger workflow when raspberry pi python code changes
+  # Trigger workflow when raspberry pi python code changes or workflow file changes
   push:
     # branches: [ main ]
     paths:
+      - '.github/workflows/rpi-python-checks.yml'
       - 'raspberry-pi/python/**'
 
   # Allows you to run this workflow manually from the Actions tab
