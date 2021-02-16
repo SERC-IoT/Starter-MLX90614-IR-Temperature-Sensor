@@ -1,0 +1,116 @@
+# GitHub Action to check Raspberry Pi Python scripts
+
+name: RPi Python Checks
+
+on:
+  # Trigger workflow when raspberry pi python code changes
+  push:
+    # branches: [ main ]
+    paths:
+      - 'raspberry-pi/python/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Workflow job
+jobs:
+  # job to lint and check python scripts
+  rpi-python-script-linting:
+    name: Python Script Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Configure python version
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.8
+
+      # import stubs
+      - name: Import stubs
+        uses: actions/checkout@v2
+        with:
+          repository: markpatterson27/RPi-Py-Stubs
+          path: pi-stubs
+
+      # install dependancies
+      - name: Install dependancies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint pycodestyle
+          if [ -f raspberry-pi/python/requirements.txt ]; then pip install -r raspberry-pi/python/requirements.txt; fi
+
+      # configure python paths
+      - name: Config Python paths
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/pi-stubs/stubs" >> $GITHUB_ENV
+
+      # Style guide check
+      - name: Run style guide
+        continue-on-error: true
+        run: pycodestyle raspberry-pi/python
+
+      # Lint
+      - name: Lint
+        continue-on-error: true
+        run: pylint raspberry-pi/python/* --fail-under=8
+
+      - name: Parse lint
+        id: lintparsing
+        continue-on-error: true
+        run: |
+          lintscore=$(pylint raspberry-pi/python/* | tail -n 2 | head -n 1 | cut -d' ' -f7)
+          echo "::set-output name=lintscore::$lintscore"
+
+      # run python script
+      - name: run python scripts
+        continue-on-error: false
+        # TODO: add script paths
+        run: |
+          timeout 10 python raspberry-pi/python/read_temperature.py || ( [[ $? -eq 124 ]] && exit 0 )
+
+    outputs:
+      lint-score: ${{ steps.lintparsing.outputs.lintscore }}
+
+  # job to build custom status badges
+  build-badges:
+    name: Build Badges
+    runs-on: ubuntu-latest
+    if: always()
+    needs: rpi-python-script-linting
+    steps:
+      # need to checkout whole repo
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # switch to badges branch
+      - run: git checkout badges || git checkout -b badges
+
+      # make dir for badges
+      - name: make badges dir
+        run: mkdir -p .github/badges
+
+      # make points badge
+      - name: make points badge
+        uses: emibcn/badge-action@v1
+        with:
+          LABEL: 'Python Code Quality'
+          STATUS: ${{ needs.rpi-python-script-linting.outputs.lint-score }}
+          COLOR: purple
+          path: '.github/badges/rpipycodequality.svg'
+
+      # commit and push badge if score has changed
+      - name: Commit badge
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add '.github/badges'
+          git commit -m "Add/Update badge"
+        continue-on-error: true
+      - name: Push badge commit
+        uses: ad-m/github-push-action@master
+        if: ${{ success() }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: badges

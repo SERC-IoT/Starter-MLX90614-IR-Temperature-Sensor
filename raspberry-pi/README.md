@@ -1,5 +1,7 @@
 # Raspberry Pi and MLX90614 Infra-Red Temperature Sensor
 
+![RPi Python Checks](../../../workflows/RPi%20Python%20Checks/badge.svg) ![Python code quality](../../../blob/badges/.github/badges/rpipycodequality.svg)
+
 Code for getting started with MLX90614 infra-red temperature sensor using a Raspberry Pi.
 
 <br />
