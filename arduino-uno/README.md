@@ -1,6 +1,6 @@
 # Arduino Uno and MLX90614 Infra-Red Temperature Sensor
 
-![Arduino Sketch Compiles](https://github.com/SERC-IoT/Starter-Start/workflows/Arduino%20Sketch%20Compiles/badge.svg)
+![Arduino Sketch Checks](../../../workflows/Arduino%20Sketch%20Checks/badge.svg)
 
 Setup instructions and starter code for using the MLX90614 infra-red temperature sensor and an Arduino development board.
 

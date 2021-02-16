@@ -1,0 +1,108 @@
+# GitHub action to test arduino sketch
+
+name: Arduino Sketch Checks
+
+# Controls when the action will run. 
+on:
+  # Trigger workflow when arduino sketch changes
+  push:
+    # branches: [ main ]
+    paths:
+      - 'arduino-uno/arduino/**'  
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # lint sketches
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run arduino linter
+        uses: arduino/arduino-lint-action@v1
+        with:
+          project-type: sketch
+          path: arduino-uno/arduino/
+          recursive: true
+          verbose: true
+  
+  sketch-compile-tests:
+    name: Compile tests
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # test several different boards
+    strategy:
+      matrix:
+        arduino-platform: ["arduino:avr", "arduino:samd", "arduino:mbed", "esp8266:esp8266", "esp32:esp32"]
+        # In addition to the platform we also need to define the FQBN of the
+        # boards we want to test for each platform.
+        include:
+          # arduino uno
+          - arduino-platform: "arduino:avr"
+            fqbn: "arduino:avr:uno"
+            additional-urls-arg: ""
+          # arduino mkr wifi 1010
+          - arduino-platform: "arduino:samd"
+            fqbn: "arduino:samd:mkrwifi1010"
+            additional-urls-arg: ""
+          # arduino mkr wifi 1010
+          - arduino-platform: "arduino:mbed"
+            fqbn: "arduino:mbed:nano33ble"
+            additional-urls-arg: ""
+          # wemos d1 mini
+          - arduino-platform: "esp8266:esp8266"
+            fqbn: "esp8266:esp8266:d1_mini"
+            additional-urls-arg: "--additional-urls http://arduino.esp8266.com/stable/package_esp8266com_index.json"
+          # lolin32 (closest to lolin32-lite)
+          - arduino-platform: "esp32:esp32"
+            fqbn: "esp32:esp32:lolin32"
+            additional-urls-arg: "--additional-urls https://dl.espressif.com/dl/package_esp32_index.json"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      
+      - name: check libraries pulled
+        run: ls -a additional-libraries
+
+      # install arduino cli
+      - name: Install Arduino CLI
+        # run: curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+        uses: arduino/setup-arduino-cli@v1.1.1
+
+      # link arduino libraries folder to additional-libraries folder
+      - name: link libraries folder
+        run: |
+          mkdir ~/Arduino
+          ln -s $PWD/additional-libraries ~/Arduino/libraries
+
+      # esp32 compile needs esptool
+      - name: Setup Python for esptool
+        uses: actions/setup-python@v2
+        if: ${{ matrix.arduino-platform == 'esp32:esp32' }}
+        with:
+          python-version: '3.8'
+      - name: Install esptool and dependencies
+        if: ${{ matrix.arduino-platform == 'esp32:esp32' }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install esptool
+
+      # install arduino board
+      - name: Install arduino-cli cores
+        run: |
+          arduino-cli core update-index ${{ matrix.additional-urls-arg }}
+          arduino-cli core install ${{ matrix.arduino-platform }} ${{ matrix.additional-urls-arg }}
+          arduino-cli core list
+
+      # compile sketch
+      - name: Compile sketch
+        run: arduino-cli compile --fqbn ${{ matrix.fqbn }} arduino-uno/arduino/mlx90614-temperature-sensor/mlx90614-temperature-sensor.ino
+        # run: for f in arduino-uno/arduino/**/*.ino; do arduino-cli compile --fqbn ${{ matrix.fqbn }} $f; done
