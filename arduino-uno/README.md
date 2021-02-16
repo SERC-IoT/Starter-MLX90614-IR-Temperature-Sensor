@@ -41,7 +41,6 @@ Wire the components as shown in the diagram. Note, the sensor is available in 3V
 
 | Pin No | Function |  | Device Connection |
 | --- | --- | --- | --- |
-|  |  |  |  |
 | VCC | +3.3V |  | Vin |
 | GND | GND |  | GND |
 | 18 | SDA |  | SDA |

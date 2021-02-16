@@ -22,7 +22,6 @@ Wire the components as shown in the diagram.
 
 | Pin No | Function |  | Device Connection |
 | --- | --- | --- | --- |
-|  |  |  |  |
 | VCC | +3.3V |  | Vin |
 | GND | GND |  | GND |
 | 11 | SDA |  | SDA |
