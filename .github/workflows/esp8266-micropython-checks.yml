@@ -1,0 +1,162 @@
+# Check MicroPython scripts
+
+name: MicroPython Checks
+
+on:
+  # Trigger workflow when micropython code changes
+  push:
+    # branches: [ main ]
+    paths:
+      - 'esp8266/micropython/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Workflow job
+jobs:
+  micropython-script-linting:
+    name: MicroPython Script Linting
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      # Configure python version
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.8
+
+      # Install micropython
+      - name: Install micropython
+        run: sudo apt-get install -y micropython
+
+      # import stubs
+      - name: Import stubs
+        uses: actions/checkout@v2
+        with:
+          repository: Josverl/micropython-stubs
+          path: micropython-stubs
+      
+      - name: Import additional stubs
+        uses: actions/checkout@v2
+        with:
+          repository: markpatterson27/micropython-stubs-additional
+          path: micropython-stubs-additional
+
+      - run: echo "$(pwd)"
+      - run: ls -al
+
+      # install dependancies
+      - run: |
+          pip install pylint
+          if [ -f esp8266/micropython/requirements.txt ]; then pip install -r esp8266/micropython/requirements.txt; fi
+
+      # configure python paths
+      - name: Config common Python paths
+        run: |
+          SOURCE="$(pwd)/esp8266/micropython"
+          LIB="$(pwd)/esp8266/micropython/lib"
+          CORE="$(pwd)/micropython-stubs/stubs/cpython_core"
+          echo "COMMONPATH=$SOURCE:$LIB:$CORE" >> $GITHUB_ENV
+
+      - name: Config ESP8266 Python paths
+        run: |
+          FROZEN="$(pwd)/micropython-stubs/stubs/micropython-1_13-frozen/esp8266/GENERIC"
+          ADDITIONAL="$(pwd)/micropython-stubs-additional/stubs/esp8266"
+          BASE="$(pwd)/micropython-stubs/stubs/micropython-esp8266-1_11"
+          echo "ESP8266PATH=$COMMONPATH:$FROZEN:$ADDITIONAL" >> $GITHUB_ENV
+        # BASE triggers io import error on runner
+
+      - name: Config ESP32 Python paths
+        run: |
+          FROZEN="$(pwd)/micropython-stubs/stubs/micropython-1_13-frozen/esp32/GENERIC"
+          ADDITIONAL="$(pwd)/micropython-stubs-additional/stubs/esp32"
+          BASE="$(pwd)/micropython-stubs/stubs/micropython-esp32-1_13-103"
+          echo "ESP32PATH=$COMMONPATH:$FROZEN:$ADDITIONAL" >> $GITHUB_ENV
+        # BASE triggers io import error or randint param error on runner
+
+      # check python paths
+      - run: |
+          echo "check PYTHONPATH env variable"
+          echo $PYTHONPATH
+        env:
+          PYTHONPATH: ${{ env.ESP8266PATH }}
+
+      # lint
+      - name: Lint ESP8266
+        run: pylint esp8266/micropython/*
+        continue-on-error: true
+        env:
+          PYTHONPATH: ${{ env.ESP8266PATH }}
+
+      - name: Lint ESP32
+        run: pylint esp8266/micropython/*
+        continue-on-error: true
+        env:
+          PYTHONPATH: ${{ env.ESP32PATH }}
+
+      - name: Parse lint
+        id: lintparsing
+        continue-on-error: true
+        run: |
+          lintscore=$(pylint esp8266/micropython/* | tail -n 2 | head -n 1 | cut -d' ' -f7)
+          echo "::set-output name=lintscore::$lintscore"
+        env:
+          PYTHONPATH: ${{ env.ESP8266PATH }}
+
+      # run script
+      - name: Run ESP8266 MicroPython script
+        run: timeout 10 micropython esp8266/micropython/read_temperature.py || ( [[ $? -eq 124 ]] && exit 0 )
+        env:
+          MICROPYPATH: ${{ env.ESP8266PATH }}
+
+      - name: Run ESP32 MicroPython script
+        run: timeout 10 micropython esp8266/micropython/read_temperature.py || ( [[ $? -eq 124 ]] && exit 0 )
+        env:
+          MICROPYPATH: ${{ env.ESP32PATH }}
+
+    outputs:
+      lint-score: ${{ steps.lintparsing.outputs.lintscore }}
+
+# job to build custom status badges
+  build-badges:
+    name: Build Badges
+    runs-on: ubuntu-latest
+    if: always()
+    needs: micropython-script-linting
+    steps:
+      # need to checkout whole repo
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # switch to badges branch
+      - run: git checkout badges || git checkout -b badges
+
+      # make dir for badges
+      - name: make badges dir
+        run: mkdir -p .github/badges
+
+      # make points badge
+      - name: make points badge
+        uses: emibcn/badge-action@v1
+        with:
+          LABEL: 'Pylint Score'
+          STATUS: ${{ needs.micropython-script-linting.outputs.lint-score }}
+          COLOR: purple
+          path: '.github/badges/micropythonpylint.svg'
+
+      # commit and push badge if score has changed
+      - name: Commit badge
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add '.github/badges'
+          git commit -m "Add/Update micropython badge"
+        continue-on-error: true
+      - name: Push badge commit
+        uses: ad-m/github-push-action@master
+        if: ${{ success() }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: badges

@@ -1,5 +1,7 @@
 # ESP8266 and MLX90614 Infra-Red Temperature Sensor
 
+![MicroPython Checks](../../../workflows/MicroPython%20Checks/badge.svg) ![Pylint score](../../../blob/badges/.github/badges/micropythonpylint.svg)
+
 Code for getting started with MLX90614 infra-red temperature sensor and an ESP8266 development board.
 
 <br />
