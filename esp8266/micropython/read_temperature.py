@@ -1,13 +1,13 @@
 import time
 import mlx90614
-from machine import I2C, Pin
+from machine import SoftI2C, Pin
 
 # define software I2C bus (needed for ESP8266).
 # alternatively hardware I2C bus (ESP32 only) can be used by passing 0 or 1 to
 # constructor, i.e.: i2c = I2C(0, scl=Pin(5), sda=Pin(4), freq=100000)
 # any input pins can be defined for the i2c interface
 # note, sensor doesn't work at default 400k bus speed
-i2c = I2C(-1, scl=Pin(5), sda=Pin(4), freq=100000)
+i2c = SoftI2C(scl=Pin(5), sda=Pin(4), freq=100000)
 
 # create snesor object
 sensor = mlx90614.MLX90614(i2c)
