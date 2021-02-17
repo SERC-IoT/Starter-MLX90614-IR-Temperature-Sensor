@@ -54,13 +54,13 @@ jobs:
       # Lint
       - name: Lint
         continue-on-error: true
-        run: pylint raspberry-pi/python/* --fail-under=8
+        run: pylint raspberry-pi/python/* --fail-under=8 --ignore=requirements.txt
 
       - name: Parse lint
         id: lintparsing
         continue-on-error: true
         run: |
-          lintscore=$(pylint raspberry-pi/python/* | tail -n 2 | head -n 1 | cut -d' ' -f7)
+          lintscore=$(pylint raspberry-pi/python/* --ignore=requirements.txt | tail -n 2 | head -n 1 | cut -d' ' -f7)
           echo "::set-output name=lintscore::$lintscore"
 
       # run python script

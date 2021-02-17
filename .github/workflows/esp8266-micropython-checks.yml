@@ -85,13 +85,13 @@ jobs:
 
       # lint
       - name: Lint ESP8266
-        run: pylint esp8266/micropython/*
+        run: pylint esp8266/micropython/* --fail-under=8 --ignore=requirements.txt
         continue-on-error: true
         env:
           PYTHONPATH: ${{ env.ESP8266PATH }}
 
       - name: Lint ESP32
-        run: pylint esp8266/micropython/*
+        run: pylint esp8266/micropython/* --fail-under=8 --ignore=requirements.txt
         continue-on-error: true
         env:
           PYTHONPATH: ${{ env.ESP32PATH }}
@@ -100,7 +100,7 @@ jobs:
         id: lintparsing
         continue-on-error: true
         run: |
-          lintscore=$(pylint esp8266/micropython/* | tail -n 2 | head -n 1 | cut -d' ' -f7)
+          lintscore=$(pylint esp8266/micropython/* --ignore=requirements.txt | tail -n 2 | head -n 1 | cut -d' ' -f7)
           echo "::set-output name=lintscore::$lintscore"
         env:
           PYTHONPATH: ${{ env.ESP8266PATH }}
