@@ -76,6 +76,14 @@ jobs:
           echo "ESP32PATH=$COMMONPATH:$FROZEN:$ADDITIONAL" >> $GITHUB_ENV
         # BASE triggers io import error or randint param error on runner
 
+      # add micropython module stubs to interpreter
+      - name: Add usercustomizations
+        run: |
+          dir=$(python -m site --user-site)
+          mkdir -p $dir
+          echo "import builtins" >> $dir/usercustomize.py
+          echo "builtins.const = lambda x: x" >> $dir/usercustomize.py
+
       # check python paths
       - run: |
           echo "check PYTHONPATH env variable"
