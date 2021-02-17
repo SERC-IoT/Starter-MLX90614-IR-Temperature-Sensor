@@ -83,6 +83,8 @@ jobs:
           mkdir -p $dir
           echo "import builtins" >> $dir/usercustomize.py
           echo "builtins.const = lambda x: x" >> $dir/usercustomize.py
+          echo "import time" >> $dir/usercustomize.py
+          echo "time.sleep_ms = lambda x: time.sleep(x/1000)" >> $dir/usercustomize.py
 
       # check python paths
       - run: |
