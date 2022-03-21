@@ -9,7 +9,7 @@ from machine import SoftI2C, Pin
 # note, sensor doesn't work at default 400k bus speed
 i2c = SoftI2C(scl=Pin(5), sda=Pin(4), freq=100000)
 
-# create snesor object
+# create sensor object
 sensor = mlx90614.MLX90614(i2c)
 
 print("* MLX90614 Temperature *")
